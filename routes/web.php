@@ -39,6 +39,7 @@ Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index
 Route::get('/laporan/barang', [LaporanController::class, 'cetakBarang'])->name('laporan.barang');
 Route::get('/laporan/masuk', [LaporanController::class, 'cetakMasuk'])->name('laporan.masuk');
 Route::get('/laporan/keluar', [LaporanController::class, 'cetakKeluar'])->name('laporan.keluar');
+Route::get('/laporan/peminjaman', [LaporanController::class, 'cetakPeminjaman'])->name('laporan.peminjaman');
 
 Route::fallback(function () {
     return view('errors.404');

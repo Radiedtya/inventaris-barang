@@ -33,6 +33,18 @@
             </div>
         </div>
 
+        {{-- Card: Peminjaman Aktif --}}
+        <div class="bg-indigo-500 p-6 rounded-[2rem] shadow-lg shadow-indigo-200 relative overflow-hidden group">
+            <div class="relative z-10">
+                <p class="text-xs font-bold text-indigo-100 uppercase tracking-widest mb-1">Sedang Dipinjam</p>
+                <h3 class="text-3xl font-black text-white">{{ $totalDipinjam ?? 0 }}</h3>
+                <a href="{{ route('peminjaman.index') }}" class="inline-flex items-center text-[10px] text-indigo-100 mt-3 font-bold uppercase hover:underline">Pantau Peminjam →</a>
+            </div>
+            <div class="absolute -right-2 -bottom-2 opacity-20 group-hover:scale-110 transition-transform duration-500 text-white">
+                <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
+        </div>
+
         {{-- Card: Inbound --}}
         <div class="bg-emerald-500 p-6 rounded-[2rem] shadow-lg shadow-emerald-200 relative overflow-hidden group">
             <div class="relative z-10">
@@ -63,6 +75,9 @@
                 </a>
                 <a href="{{ route('barang-keluar.create') }}" class="w-10 h-10 bg-rose-500/20 hover:bg-rose-500 text-rose-500 hover:text-white rounded-full flex items-center justify-center transition-all" title="Input Barang Keluar">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 13l-5 5m0 0l-5-5m5 5V6" stroke-width="2" stroke-linecap="round"/></svg>
+                </a>
+                <a href="{{ route('peminjaman.create') }}" class="w-10 h-10 bg-indigo-500/20 hover:bg-indigo-500 text-indigo-500 hover:text-white rounded-full flex items-center justify-center transition-all" title="Input Peminjaman">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2" stroke-linecap="round"/></svg>
                 </a>
             </div>
         </div>
@@ -120,6 +135,29 @@
                     </div>
                 @else
                     <p class="text-xs italic text-slate-300">Belum ada data keluar</p>
+                @endif
+            </div>
+
+            {{-- Last Peminjaman --}}
+            <div class="bg-white p-5 rounded-[2rem] border border-slate-100 shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="text-[10px] font-black text-indigo-500 bg-indigo-50 px-3 py-1 rounded-full uppercase">Peminjaman Baru</span>
+                </div>
+                @if($lastPeminjaman)
+                    <div class="flex gap-4 items-center">
+                        <div class="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center text-indigo-600 font-black text-xl">
+                            {{ substr($lastPeminjaman->nama_peminjam, 0, 1) }}
+                        </div>
+                        <div>
+                            <p class="text-sm font-black text-slate-800 leading-tight">{{ $lastPeminjaman->nama_peminjam }}</p>
+                            <p class="text-xs text-slate-500 mt-1">{{ $lastPeminjaman->barang->nama_barang }} • {{ $lastPeminjaman->jumlah }} Unit</p>
+                            <p class="text-[10px] {{ $lastPeminjaman->status == 'dipinjam' ? 'text-amber-500' : 'text-emerald-500' }} font-bold uppercase mt-1">
+                                {{ $lastPeminjaman->status }}
+                            </p>
+                        </div>
+                    </div>
+                @else
+                    <p class="text-xs italic text-slate-300">Belum ada aktivitas pinjam</p>
                 @endif
             </div>
         </div>

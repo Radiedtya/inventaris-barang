@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\BarangMasuk;
 use App\Models\BarangKeluar;
-use PDF; // Import alias DomPDF
+use App\Models\Peminjaman;
+use PDF;
 
 class LaporanController extends Controller
 {
@@ -46,5 +47,15 @@ class LaporanController extends Controller
         
         $pdf = PDF::loadView('laporan.pdf_keluar', compact('data'));
         return $pdf->stream('laporan-barang-keluar.pdf');
+    }
+
+    public function cetakPeminjaman(Request $request)
+    {
+        $data = Peminjaman::with('barang')
+                ->whereBetween('tanggal_pinjam', [$request->tgl_awal, $request->tgl_akhir])
+                ->get();
+        $periode = date('d/m/Y', strtotime($request->tgl_awal)) . " - " . date('d/m/Y', strtotime($request->tgl_akhir));
+        $pdf = PDF::loadView('laporan.pdf_peminjaman', compact('data', 'periode'));
+        return $pdf->stream('laporan-peminjaman-barang.pdf');
     }
 }

@@ -3,31 +3,58 @@
 <head>
     <title>Laporan Barang Keluar</title>
     <style>
-        body { font-family: sans-serif; font-size: 12px; color: #333; }
-        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #be123c; padding-bottom: 10px; }
-        .info { margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-        th { background-color: #fff1f2; color: #be123c; font-weight: bold; text-transform: uppercase; font-size: 10px; }
-        .footer { margin-top: 30px; text-align: right; font-style: italic; font-size: 10px; }
+        body { font-family: 'Helvetica', sans-serif; font-size: 11px; color: #334155; margin: 20px; }
+        
+        /* Header Style dengan aksen Rose */
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 3px solid #be123c; padding-bottom: 15px; }
+        .header h1 { margin: 0; color: #9f1239; font-size: 22px; letter-spacing: 2px; }
+        .header p { margin: 5px 0; color: #6b7280; font-weight: bold; text-transform: uppercase; font-size: 10px; }
+        
+        /* Info Box dengan soft rose background */
+        .info { margin-bottom: 25px; background: #fff1f2; padding: 15px; border-radius: 12px; border-left: 5px solid #be123c; }
+        .info table { width: auto; border: none; }
+        .info td { border: none; padding: 2px 8px; color: #881337; }
+        
+        /* Table Style */
+        table { width: 100%; border-collapse: collapse; background: #fff; }
+        th { 
+            background-color: #be123c; 
+            color: white; 
+            padding: 12px 10px; 
+            text-align: left; 
+            text-transform: uppercase; 
+            font-size: 9px; 
+            letter-spacing: 1px;
+        }
+        td { 
+            border: 1px solid #e5e7eb; 
+            padding: 10px; 
+            vertical-align: middle; 
+        }
+        tr:nth-child(even) { background-color: #fef2f2; }
+        
         .text-center { text-align: center; }
+        .font-bold { font-weight: bold; color: #1e293b; }
+        
+        /* Footer */
+        .footer { margin-top: 40px; text-align: right; font-size: 9px; color: #94a3b8; border-top: 1px solid #e5e7eb; padding-top: 10px; }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1 style="margin: 0; color: #be123c;">LAPORAN BARANG KELUAR</h1>
-        <p style="margin: 5px 0;">Sistem Informasi Inventaris Barang</p>
+        <h1>LAPORAN BARANG KELUAR</h1>
+        <p>Logistik Inventaris Pro - Sistem Informasi RPL</p>
     </div>
 
     <div class="info">
         <table>
-            <tr style="border: none;">
-                <td style="border: none; padding: 0; width: 100px;">Periode</td>
-                <td style="border: none; padding: 0;">: {{ request('tgl_awal') }} s/d {{ request('tgl_akhir') }}</td>
+            <tr>
+                <td width="100">Periode Laporan</td>
+                <td class="font-bold">: {{ request('tgl_awal') }} s/d {{ request('tgl_akhir') }}</td>
             </tr>
-            <tr style="border: none;">
-                <td style="border: none; padding: 0;">Petugas</td>
-                <td style="border: none; padding: 0;">: {{ Auth::user()->name }}</td>
+            <tr>
+                <td>Petugas Lapangan</td>
+                <td class="font-bold">: {{ Auth::user()->name }}</td>
             </tr>
         </table>
     </div>
@@ -36,11 +63,11 @@
         <thead>
             <tr>
                 <th width="30" class="text-center">No</th>
-                <th width="80">Tanggal</th>
+                <th width="90">Tanggal Keluar</th>
                 <th>Nama Barang</th>
                 <th>Merek</th>
-                <th width="50" class="text-center">Jumlah</th>
-                <th>Tujuan/Keterangan</th>
+                <th width="60" class="text-center">Jumlah</th>
+                <th>Tujuan / Ket.</th>
             </tr>
         </thead>
         <tbody>
@@ -48,21 +75,23 @@
             <tr>
                 <td class="text-center">{{ $key + 1 }}</td>
                 <td>{{ \Carbon\Carbon::parse($item->tanggal_keluar)->format('d/m/Y') }}</td>
-                <td><strong>{{ $item->barang->nama_barang }}</strong></td>
+                <td><span class="font-bold">{{ $item->barang->nama_barang }}</span></td>
                 <td>{{ $item->barang->merek }}</td>
-                <td class="text-center" style="color: #be123c; font-weight: bold;">-{{ $item->jumlah }}</td>
+                <td class="text-center font-bold" style="color: #be123c;">- {{ $item->jumlah }}</td>
                 <td>{{ $item->keterangan ?? '-' }}</td>
             </tr>
             @empty
             <tr>
-                <td colspan="6" class="text-center">Tidak ada data pengeluaran pada periode ini.</td>
+                <td colspan="6" class="text-center" style="padding: 30px; color: #94a3b8;">
+                    Tidak ada data pengeluaran barang pada periode ini.
+                </td>
             </tr>
             @endforelse
         </tbody>
     </table>
 
     <div class="footer">
-        Dicetak pada: {{ now()->translatedFormat('d F Y H:i') }}
+        Dicetak pada: {{ now()->translatedFormat('d F Y, H:i') }} WIB
     </div>
 </body>
 </html>

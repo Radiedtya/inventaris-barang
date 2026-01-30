@@ -41,16 +41,22 @@ class HomeController extends Controller
         }
 
         $data = [
-            'totalBarang' => \App\Models\Barang::count(),
-            'totalMasuk'  => \App\Models\BarangMasuk::whereMonth('tanggal_masuk', now()->month)->count(),
-            'totalKeluar' => \App\Models\BarangKeluar::whereMonth('tanggal_keluar', now()->month)->count(),
-            'lastMasuk'   => \App\Models\BarangMasuk::with('barang')->latest()->first(),
-            'lastKeluar'  => \App\Models\BarangKeluar::with('barang')->latest()->first(),
-            'labels'      => $labels,
-            'dataMasuk'   => $dataMasuk,
-            'dataKeluar'  => $dataKeluar,
+            'totalBarang'    => \App\Models\Barang::count(),
+            'totalMasuk'     => \App\Models\BarangMasuk::whereMonth('tanggal_masuk', now()->month)->count(),
+            'totalKeluar'    => \App\Models\BarangKeluar::whereMonth('tanggal_keluar', now()->month)->count(),
+            
+            // --- DATA TAMBAHAN DARI LIA ---
+            'totalDipinjam'  => \App\Models\Peminjaman::where('status', 'dipinjam')->sum('jumlah'),
+            'lastPeminjaman' => \App\Models\Peminjaman::with('barang')->latest()->first(),
+            // ------------------------------
+
+            'lastMasuk'      => \App\Models\BarangMasuk::with('barang')->latest()->first(),
+            'lastKeluar'     => \App\Models\BarangKeluar::with('barang')->latest()->first(),
+            'labels'         => $labels,
+            'dataMasuk'      => $dataMasuk,
+            'dataKeluar'     => $dataKeluar,
         ];
 
-        return view('home', $data);
+        return view('home', $data); // Pastikan nama view-nya sesuai (home atau dashboard)
     }
 }
