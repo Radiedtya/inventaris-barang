@@ -15,4 +15,10 @@ class Peminjaman extends Model
     {
         return $this->belongsTo(Barang::class);
     }
+
+    // Accessor untuk foto
+    public function getFotoUrlAttribute()
+    {
+        return $this->foto ? asset('storage/' . $this->foto) : asset('images/no-image.png');
+    }
 }

@@ -57,7 +57,7 @@ class BarangKeluarController extends Controller
 
         // Validasi stok (Jangan sampai minus)
         if ($request->jumlah > $barang->stok) {
-            return back()->withErrors(['jumlah' => 'Stok tidak mencukupi, Sayang! Sisa stok: ' . $barang->stok])->withInput();
+            return back()->withErrors(['jumlah' => 'Stok tidak mencukupi! Sisa stok: ' . $barang->stok])->withInput();
         }
 
         DB::transaction(function () use ($request, $barang) {
@@ -82,7 +82,7 @@ class BarangKeluarController extends Controller
             $barang->save();
         });
 
-        return redirect()->route('barang-keluar.index')->with('success', 'Stok berhasil dikurangi, Sayang!');
+        return redirect()->route('barang-keluar.index')->with('success', 'Stok berhasil dikurangi!');
     }
 
     public function edit(string $id)
@@ -143,19 +143,29 @@ class BarangKeluarController extends Controller
     {
         $barangKeluar = BarangKeluar::findOrFail($id);
 
-        DB::transaction(function () use ($barangKeluar) {
-            // Balikin stok barang (tambah lagi) karena transaksi keluar dihapus
-            $barang = Barang::findOrFail($barangKeluar->barang_id);
-            $barang->stok += $barangKeluar->jumlah;
-            $barang->save();
+        // Cara agar dihapus sekaligus mengembalikan stok
+        // DB::transaction(function () use ($barangKeluar) {
+        //     // Balikin stok barang (tambah lagi) karena transaksi keluar dihapus
+        //     $barang = Barang::findOrFail($barangKeluar->barang_id);
+        //     $barang->stok += $barangKeluar->jumlah;
+        //     $barang->save();
 
-            // Hapus file foto
-            if ($barangKeluar->foto && File::exists(public_path('storage/' . $barangKeluar->foto))) {
-                File::delete(public_path('storage/' . $barangKeluar->foto));
-            }
+        //     // Hapus file foto
+        //     if ($barangKeluar->foto && File::exists(public_path('storage/' . $barangKeluar->foto))) {
+        //         File::delete(public_path('storage/' . $barangKeluar->foto));
+        //     }
 
-            $barangKeluar->delete();
-        });
+        //     $barangKeluar->delete();
+        // });
+
+        // tanpa menambah stok kembali
+        // Hapus file foto
+        if ($barangKeluar->foto && File::exists(public_path('storage/' . $barangKeluar->foto))) {
+            File::delete(public_path('storage/' . $barangKeluar->foto));
+        }
+
+        $barangKeluar->delete();
+
 
         return redirect()->route('barang-keluar.index')->with('success', 'Data dihapus dan stok dikembalikan.');
     }

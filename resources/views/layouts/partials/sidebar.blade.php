@@ -1,4 +1,4 @@
-<aside :class="sidebarOpen ? 'w-64' : 'w-20'" class="bg-white border-r border-slate-100 transition-all duration-500 ease-in-out flex flex-col sticky top-0 h-screen z-50 shadow-sm">
+<aside :class="sidebarOpen ? 'w-64' : 'w-20'" class="bg-white border-r border-slate-100 transition-all duration-500 ease-in-out flex flex-col sticky top-0 h-screen shadow-sm">
 
     {{-- Logo / Brand Section --}}
     <div class="h-20 flex items-center px-6 border-b border-slate-50 overflow-hidden">

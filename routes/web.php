@@ -11,6 +11,10 @@ Route::get('/', function () {
     return view('startup');
 });
 
+Route::get('/genesis', function () {
+    return view('genesis');
+});
+
 Auth::routes();
 
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

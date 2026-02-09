@@ -109,7 +109,7 @@
                 </div>
                 @if($lastMasuk)
                     <div class="flex gap-4 items-center">
-                        <img src="{{ $lastMasuk->foto_url }}" class="w-16 h-16 rounded-2xl object-cover shadow-md">
+                        <img src="{{ $lastMasuk->foto_url }}" alt="Foto Bukti" class="w-16 h-16 rounded-2xl object-cover shadow-md">
                         <div>
                             <p class="text-sm font-black text-slate-800 leading-tight">{{ $lastMasuk->barang->nama_barang }}</p>
                             <p class="text-xs text-slate-500 mt-1">{{ $lastMasuk->jumlah }} Unit • {{ $lastMasuk->tanggal_masuk }}</p>
@@ -127,7 +127,7 @@
                 </div>
                 @if($lastKeluar)
                     <div class="flex gap-4 items-center">
-                        <img src="{{ $lastKeluar->foto_url }}" class="w-16 h-16 rounded-2xl object-cover shadow-md">
+                        <img src="{{ $lastKeluar->foto_url }}" alt="Foto Bukti" class="w-16 h-16 rounded-2xl object-cover shadow-md">
                         <div>
                             <p class="text-sm font-black text-slate-800 leading-tight">{{ $lastKeluar->barang->nama_barang }}</p>
                             <p class="text-xs text-slate-500 mt-1">{{ $lastKeluar->jumlah }} Unit • {{ $lastKeluar->tanggal_keluar }}</p>

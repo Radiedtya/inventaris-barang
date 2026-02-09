@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-// Import Model-model kamu di sini
 use App\Models\Barang;
+use App\Models\Peminjaman;
 use App\Models\BarangMasuk;
 use App\Models\BarangKeluar;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -36,22 +36,22 @@ class HomeController extends Controller
             $date = now()->subDays($i)->format('Y-m-d');
             $labels[] = now()->subDays($i)->translatedFormat('d M');
             
-            $dataMasuk[] = \App\Models\BarangMasuk::whereDate('tanggal_masuk', $date)->sum('jumlah');
-            $dataKeluar[] = \App\Models\BarangKeluar::whereDate('tanggal_keluar', $date)->sum('jumlah');
+            $dataMasuk[] = BarangMasuk::whereDate('tanggal_masuk', $date)->sum('jumlah');
+            $dataKeluar[] = BarangKeluar::whereDate('tanggal_keluar', $date)->sum('jumlah');
         }
 
         $data = [
-            'totalBarang'    => \App\Models\Barang::count(),
-            'totalMasuk'     => \App\Models\BarangMasuk::whereMonth('tanggal_masuk', now()->month)->count(),
-            'totalKeluar'    => \App\Models\BarangKeluar::whereMonth('tanggal_keluar', now()->month)->count(),
+            'totalBarang'    => Barang::count(),
+            'totalMasuk'     => BarangMasuk::whereMonth('tanggal_masuk', now()->month)->count(),
+            'totalKeluar'    => BarangKeluar::whereMonth('tanggal_keluar', now()->month)->count(),
             
             // --- DATA TAMBAHAN DARI LIA ---
-            'totalDipinjam'  => \App\Models\Peminjaman::where('status', 'dipinjam')->sum('jumlah'),
-            'lastPeminjaman' => \App\Models\Peminjaman::with('barang')->latest()->first(),
+            'totalDipinjam'  => Peminjaman::where('status', 'dipinjam')->sum('jumlah'),
+            'lastPeminjaman' => Peminjaman::with('barang')->latest()->first(),
             // ------------------------------
 
-            'lastMasuk'      => \App\Models\BarangMasuk::with('barang')->latest()->first(),
-            'lastKeluar'     => \App\Models\BarangKeluar::with('barang')->latest()->first(),
+            'lastMasuk'      => BarangMasuk::with('barang')->latest()->first(),
+            'lastKeluar'     => BarangKeluar::with('barang')->latest()->first(),
             'labels'         => $labels,
             'dataMasuk'      => $dataMasuk,
             'dataKeluar'     => $dataKeluar,

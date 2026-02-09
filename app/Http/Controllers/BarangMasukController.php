@@ -77,7 +77,7 @@ class BarangMasukController extends Controller
             $barang->save();
         });
 
-        return redirect()->route('barang-masuk.index')->with('success', 'Stok berhasil ditambah, Sayang!');
+        return redirect()->route('barang-masuk.index')->with('success', 'Stok berhasil ditambah!');
     }
 
     public function edit(string $id)
@@ -134,19 +134,27 @@ class BarangMasukController extends Controller
     {
         $barangMasuk = BarangMasuk::findOrFail($id);
 
-        DB::transaction(function () use ($barangMasuk) {
-            // Kurangi stok barang karena transaksinya dibatalkan/dihapus
-            $barang = Barang::findOrFail($barangMasuk->barang_id);
-            $barang->stok -= $barangMasuk->jumlah;
-            $barang->save();
+        // DB::transaction(function () use ($barangMasuk) {
+        //     // Kurangi stok barang karena transaksinya dibatalkan/dihapus
+        //     $barang = Barang::findOrFail($barangMasuk->barang_id);
+        //     $barang->stok -= $barangMasuk->jumlah;
+        //     $barang->save();
 
-            // Hapus file foto bukti
-            if ($barangMasuk->foto && File::exists(public_path('storage/' . $barangMasuk->foto))) {
-                File::delete(public_path('storage/' . $barangMasuk->foto));
-            }
+        //     // Hapus file foto bukti
+        //     if ($barangMasuk->foto && File::exists(public_path('storage/' . $barangMasuk->foto))) {
+        //         File::delete(public_path('storage/' . $barangMasuk->foto));
+        //     }
 
-            $barangMasuk->delete();
-        });
+        //     $barangMasuk->delete();
+        // });
+
+        // Cara tanpa mengubah stok
+        // Hapus file foto bukti
+        if ($barangMasuk->foto && File::exists(public_path('storage/' . $barangMasuk->foto))) {
+            File::delete(public_path('storage/' . $barangMasuk->foto));
+        }
+
+        $barangMasuk->delete();
 
         return redirect()->route('barang-masuk.index')->with('success', 'Data dihapus dan stok sudah disesuaikan.');
     }

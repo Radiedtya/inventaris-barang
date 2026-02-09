@@ -99,6 +99,7 @@
                             <p class="text-[10px] text-slate-400 italic">{{ $p->keterangan ?? 'Tanpa keterangan' }}</p>
                         </td>
                         <td class="px-6 py-5">
+                            <img src="{{ $p->barang->foto_url }}" alt="" class="w-14 h-14 object-cover rounded-xl mb-2 border border-slate-200 shadow-sm">
                             <p class="font-bold text-slate-700">{{ $p->barang->nama_barang }}</p>
                             <p class="text-[10px] font-black text-indigo-500 uppercase">{{ $p->barang->merek }}</p>
                         </td>
@@ -135,10 +136,10 @@
                                 <form action="{{ route('peminjaman.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus data ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    {{-- <button type="submit" class="p-2 bg-rose-50 text-rose-600 rounded-xl hover:bg-rose-600 hover:text-white transition-all shadow-sm" title="Hapus Data">
+                                    <button type="submit" class="p-2 bg-rose-50 text-rose-600 rounded-xl hover:bg-rose-600 hover:text-white transition-all shadow-sm" title="Hapus Data">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    </button> --}}
-                                    <button title="Hapus Data" type="submit" class="group relative flex w-9 h-9 flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-red-800 bg-red-400 hover:bg-red-600">
+                                    </button>
+                                    {{-- <button title="Hapus Data" type="submit" class="group relative flex w-9 h-9 flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-red-800 bg-red-400 hover:bg-red-600">
                                         <svg viewBox="0 0 1.625 1.625" class="absolute -top-7 fill-white delay-100 group-hover:top-6 group-hover:animate-[spin_1.4s] group-hover:duration-1000" height="15" width="15">
                                             <path d="M.471 1.024v-.52a.1.1 0 0 0-.098.098v.618c0 .054.044.098.098.098h.487a.1.1 0 0 0 .098-.099h-.39c-.107 0-.195 0-.195-.195"/>
                                             <path d="M1.219.601h-.163A.1.1 0 0 1 .959.504V.341A.033.033 0 0 0 .926.309h-.26a.1.1 0 0 0-.098.098v.618c0 .054.044.098.098.098h.487a.1.1 0 0 0 .098-.099v-.39a.033.033 0 0 0-.032-.033"/>
@@ -156,7 +157,7 @@
                                             <path stroke-width="4" stroke="white" d="M12 6L12 29"/>
                                             <path stroke-width="4" stroke="white" d="M21 6V29"/>
                                         </svg>
-                                    </button>
+                                    </button> --}}
                                 </form>
                             </div>
                         </td>
