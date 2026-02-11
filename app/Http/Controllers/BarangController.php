@@ -129,9 +129,9 @@ class BarangController extends Controller
     }
 
     // Ekspor ke Excel
-    public function export(Request $request) // <-- Pastikan ada Request $request
+    public function export(Request $request)
     {
-        // Mengambil merek dari request (Samsung, atau null kalau nggak filter)
+        // Mengambil merek dari request
         $merek = $request->query('merek'); 
         
         return Excel::download(new BarangExport($merek), 'data-stok-barang.xlsx');

@@ -74,8 +74,7 @@
                             <a href="{{ route('logout') }}" 
                                class="flex items-center gap-3 px-5 py-3 text-sm text-rose-600 hover:bg-rose-50 font-bold transition-all"
                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 16l4-4m0 0l-4-4m4 4H7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                Keluar Aplikasi
+                                Keluar
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
                         </div>

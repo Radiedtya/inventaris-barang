@@ -2,6 +2,48 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 pb-12">
+
+    @if(session('success'))
+        <div 
+            x-data="{ show: true }"
+            x-init="setTimeout(() => show = false, 4000)"
+            x-show="show"
+            x-transition:enter="transform ease-out duration-300"
+            x-transition:enter-start="translate-y-2 opacity-0"
+            x-transition:enter-end="translate-y-0 opacity-100"
+            x-transition:leave="transform ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed top-5 right-5 z-50"
+        >
+            <div class="bg-green-500 text-white px-6 py-4 rounded-xl shadow-lg flex items-center gap-3">
+                
+                <!-- Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" 
+                    class="w-6 h-6" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor">
+                    <path stroke-linecap="round" 
+                        stroke-linejoin="round" 
+                        stroke-width="2" 
+                        d="M5 13l4 4L19 7" />
+                </svg>
+
+                <span class="font-medium">
+                    {{ session('success') }}
+                </span>
+
+                <!-- Close Button -->
+                <button @click="show = false" class="ml-2 hover:opacity-80">
+                    ✕
+                </button>
+
+            </div>
+        </div>
+    @endif
+
+
     {{-- Header Section --}}
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
         <div>

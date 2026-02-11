@@ -6,7 +6,7 @@ use App\Models\Barang;
 use App\Models\BarangMasuk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File; // Tambahin ini buat hapus file lama
+use Illuminate\Support\Facades\File; // Class untuk hapus file lama
 use App\Exports\BarangMasukExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -156,7 +156,7 @@ class BarangMasukController extends Controller
 
         $barangMasuk->delete();
 
-        return redirect()->route('barang-masuk.index')->with('success', 'Data dihapus dan stok sudah disesuaikan.');
+        return redirect()->route('barang-masuk.index')->with('success', 'Data dihapus.');
     }
 
     // Tambahkan method export

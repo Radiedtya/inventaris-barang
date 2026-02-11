@@ -137,7 +137,7 @@
                     <td class="px-6 py-4 text-sm">
                         <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg font-bold">+{{ $b->jumlah }}</span>
                     </td>
-                    <td class="px-6 py-4 text-sm text-gray-500 italic">{{ $b->keterangan ?? '-' }}</td>
+                    <td class="px-6 py-4 text-sm text-gray-500 italic">{{ $b->keterangan ?? 'Tidak ada keterangan' }}</td>
                     {{-- Kita bikin tanggalnya lebih rapi pakau format d M Y --}}
                     <td class="px-6 py-4 text-sm text-gray-600 font-medium">
                         {{ \Carbon\Carbon::parse($b->tanggal_masuk)->translatedFormat('d F Y') }}

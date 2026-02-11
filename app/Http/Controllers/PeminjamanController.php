@@ -14,7 +14,7 @@ class PeminjamanController extends Controller
         $daftarMerek = Barang::distinct()->pluck('merek');
         $query = Peminjaman::with('barang');
 
-        // Filter merek (biar konsisten sama fitur Ryn yang lain)
+        // Filter merek
         if ($request->filled('merek')) {
             $query->whereHas('barang', function($q) use ($request) {
                 $q->where('merek', $request->merek);
@@ -46,7 +46,7 @@ class PeminjamanController extends Controller
 
         // Validasi: Stok cukup
         if ($barang->stok < $request->jumlah) {
-            return back()->with('error', 'Maaf Sayang, stok tidak cukup untuk dipinjam.');
+            return back()->with('error', 'Maaf, stok tidak cukup untuk dipinjam.');
         }
 
         // Simpan transaksi
@@ -83,7 +83,7 @@ class PeminjamanController extends Controller
         // TAMBAH STOK LAGI
         $pinjam->barang->increment('stok', $pinjam->jumlah);
 
-        return back()->with('success', 'Barang sudah kembali, stok sudah Ryn update ya!');
+        return back()->with('success', 'Barang sudah kembali, stok sudah update ya!');
     }
 
     // 5. Hapus (Kalau salah input)

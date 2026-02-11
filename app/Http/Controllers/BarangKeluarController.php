@@ -167,7 +167,7 @@ class BarangKeluarController extends Controller
         $barangKeluar->delete();
 
 
-        return redirect()->route('barang-keluar.index')->with('success', 'Data dihapus dan stok dikembalikan.');
+        return redirect()->route('barang-keluar.index')->with('success', 'Data dihapus.');
     }
 
     // Ekspor ke Excel

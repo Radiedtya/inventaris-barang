@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventaris Barang | RynDev Smart Solution</title>
+    <link rel="shortcut icon" href="{{ asset('smart-inven-removebg-preview.png') }}" type="image/x-icon">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -71,12 +72,102 @@
                     
                     <div class="h-6 w-px bg-gray-200 mx-2"></div>
 
-                    @guest
-                        <a href="{{ route('login') }}" class="text-xs font-black uppercase tracking-widest text-gray-600 hover:text-indigo-600">Login</a>
+                    {{-- @guest
+                        <a href="{{ route('login') }}" class="text-xs font-black uppercase tracking-widest text-gray-600 hover:text-indigo-600">Masuk</a>
                         <a href="{{ route('register') }}" class="inline-flex items-center px-6 py-3 bg-gray-900 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-indigo-600 transition-all shadow-xl active:scale-95">Daftar</a>
                     @else
                         <a href="{{ route('home') }}" class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white text-xs font-black uppercase tracking-widest rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100">Dashboard</a>
+                    @endguest --}}
+
+                    <div class="hidden sm:flex sm:items-center sm:gap-6">
+                        @guest
+                            @if (Route::has('login'))
+                                <a href="{{ route('login') }}" class="text-sm font-bold text-gray-500 hover:text-indigo-600 transition-colors">
+                                    Login
+                                </a>
+                            @endif
+                            
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="relative group">
+                                    <div class="absolute -inset-0.5 bg-gradient-to-r from-indigo-600 to-violet-600 rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-300"></div>
+                                    <button class="relative px-7 py-2.5 bg-gray-900 text-white text-sm font-bold rounded-xl transition-all active:scale-95 shadow-lg shadow-gray-200">
+                                        Register
+                                    </button>
+                                </a>
+                            @endif
+                        @else
+
+                            {{-- User Dropdown --}}
+                            <div class="relative" x-data="{ dropdownOpen: false }">
+                                <button @click="dropdownOpen = !dropdownOpen" @click.away="dropdownOpen = false" 
+                                        class="group flex items-center gap-3 pl-1 pr-3 py-1 rounded-2xl hover:bg-gray-50 transition-all duration-300">
+                                    <div class="text-left hidden lg:block">
+                                        <p class="text-sm font-black text-gray-900 leading-none">{{ Auth::user()->name }}</p>
+                                    </div>
+                                    <svg class="w-4 h-4 text-gray-400 group-hover:text-indigo-600 transition-transform duration-300" :class="dropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </button>
+
+                                {{-- Dropdown Menu --}}
+                                <div x-show="dropdownOpen" 
+                                    x-transition:enter="transition ease-out duration-200"
+                                    x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+                                    x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                                    class="absolute right-0 mt-3 w-64 bg-white border border-gray-100 rounded-3xl shadow-2xl shadow-indigo-100/50 py-3 z-50 overflow-hidden">
+                                    
+                                    <a href="/dashboard" class="block px-5 py-3 text-sm text-indigo-600 hover:bg-indigo-50 font-bold transition-all">
+                                        Dashboard
+                                    </a>
+                                    <a href="{{ route('logout') }}" class="flex items-center gap-3 px-5 py-3 text-sm text-rose-600 hover:bg-rose-50 font-bold transition-all" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        Keluar
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
+                                </div>
+                            </div>
+                        @endguest
+                    </div>
+
+                    {{-- Mobile Toggle --}}
+                    <div class="flex items-center sm:hidden">
+                        <button @click="open = !open" class="p-2 w-11 h-11 flex items-center justify-center rounded-xl bg-gray-50 text-gray-900 hover:bg-indigo-600 hover:text-white transition-all duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path x-show="!open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+                                <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            {{-- Mobile Menu Panel --}}
+            <div x-show="open" 
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 -translate-y-4"
+                x-transition:enter-end="opacity-100 translate-y-0"
+                class="sm:hidden bg-white border-b border-gray-100 shadow-xl overflow-hidden">
+                <div class="px-4 pt-2 pb-6 space-y-2">
+                    @guest
+                        <a href="{{ route('login') }}" class="block px-4 py-3 text-base font-bold text-gray-600 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-all">Login</a>
+                        <a href="{{ route('register') }}" class="block px-4 py-3 text-base font-bold bg-indigo-600 text-white rounded-xl shadow-md shadow-indigo-100">Register</a>
+                    @else
+                        <div class="flex items-center gap-3 px-4 py-4 mb-2 bg-indigo-50/50 rounded-2xl">
+                            <img src="https://ui-avatars.com/api/?name={{ urlencode(Auth::user()->name) }}&background=6366f1&color=fff&bold=true" class="w-10 h-10 rounded-xl shadow-sm" alt="Avatar">
+                            <div>
+                                <p class="text-sm font-black text-gray-900 leading-none">{{ Auth::user()->name }}</p>
+                                <p class="text-[10px] text-indigo-500 font-bold uppercase mt-1">Admin Account</p>
+                            </div>
+                        </div>
+                        <a href="/dashboard" class="block px-4 py-3 text-sm font-bold text-gray-600 hover:bg-gray-50 rounded-xl transition-all">Dashboard</a>
+                        <a href="{{ route('logout') }}" 
+                        class="block px-4 py-3 text-sm font-bold text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
+                        onclick="event.preventDefault(); document.getElementById('logout-form-mobile').submit();">
+                            Keluar
+                        </a>
+                        <form id="logout-form-mobile" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
                     @endguest
+                </div>
+            </div>
+
                 </div>
 
                 <div class="flex items-center md:hidden">
@@ -107,13 +198,57 @@
             <hr class="border-gray-50 my-2">
 
             @guest
-                <a href="{{ route('login') }}" class="block w-full text-center py-4 font-black text-xs uppercase tracking-widest text-gray-600 border border-gray-100 rounded-xl">Login</a>
+                <a href="{{ route('login') }}" class="block w-full text-center py-4 font-black text-xs uppercase tracking-widest text-gray-600 border border-gray-100 rounded-xl">Masuk</a>
                 <a href="{{ route('register') }}" class="block w-full text-center py-4 bg-gray-900 text-white rounded-xl font-black text-xs uppercase tracking-widest">Daftar</a>
             @else
                 <a href="{{ route('home') }}" class="block w-full text-center py-4 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-indigo-100">Dashboard</a>
             @endguest
         </div>
     </nav>
+
+    {{-- NOTIF LOGIN DENGAN GOOGLE --}}
+    @if(session('success'))
+        <div id="alert-success" class="fixed top-5 right-5 z-[100] transform transition-all duration-500 ease-in-out translate-y-0 opacity-100">
+            <div class="rounded-[2rem] border border-emerald-100 bg-white p-4 shadow-2xl shadow-emerald-100/50 flex items-center gap-4 min-w-[300px]">
+                {{-- Icon --}}
+                <div class="flex-shrink-0 w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center">
+                    <svg class="h-6 w-6 text-emerald-600" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                
+                {{-- Text --}}
+                <div>
+                    <h3 class="text-sm font-black text-slate-800 uppercase tracking-tight">Success!</h3>
+                    <p class="text-xs text-slate-500 font-medium">{{ session('success') }}</p>
+                </div>
+
+                {{-- Close Button (Opsional) --}}
+                <button onclick="dismissAlert()" class="ml-auto text-slate-300 hover:text-slate-500 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <script>
+            // Fungsi untuk menghilangkan alert
+            function dismissAlert() {
+                const alert = document.getElementById('alert-success');
+                if(alert) {
+                    alert.style.opacity = '0';
+                    alert.style.transform = 'translateY(-20px)';
+                    setTimeout(() => {
+                        alert.remove();
+                    }, 500); // Tunggu animasi transisi selesai (500ms)
+                }
+            }
+
+            // Set waktu otomatis hilang (3 detik)
+            setTimeout(() => {
+                dismissAlert();
+            }, 3000);
+        </script>
+    @endif
 
     {{-- HERO SECTION --}}
     <section class="relative pt-24 pb-32 bg-white overflow-hidden" id="beranda">
@@ -208,7 +343,7 @@
     </section>
 
     {{-- STATS SECTION --}}
-    <section class="py-24 relative overflow-hidden">
+    <section class="py-24 relative bg-indigo-100 overflow-hidden">
         {{-- Background Ambient Glow --}}
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl bg-indigo-100/30 blur-[120px] rounded-full -z-10"></div>
 
@@ -266,6 +401,69 @@
             </div>
         </div>
     </section>
+
+    {{-- Content --}}
+    <section class="w-full bg-[#F8FAFF] pt-7 pb-7 md:pt-20 md:pb-24">
+        <div class="box-border flex flex-col items-center content-center px-8 mx-auto leading-6 text-black border-0 border-gray-300 border-solid md:flex-row max-w-7xl lg:px-16">
+
+            <!-- Image -->
+            <div class="box-border relative w-full max-w-md px-4 mt-5 mb-4 -ml-5 text-center bg-no-repeat bg-contain border-solid md:ml-0 md:mt-0 md:max-w-none lg:mb-0 md:w-1/2 xl:pl-10">
+                <img src="https://cdn.devdojo.com/images/december2020/productivity.png" class="p-2 pl-6 pr-5 xl:pl-16 xl:pr-20 " />
+            </div>
+
+            <!-- Content -->
+            <div class="box-border order-first w-full text-black border-solid md:w-1/2 md:pl-10 md:order-none">
+                <h2 class="m-0 text-xl font-semibold leading-tight border-0 border-gray-300 lg:text-3xl md:text-2xl">
+                    Boost Productivity
+                </h2>
+                <p class="pt-4 pb-8 m-0 leading-7 text-gray-700 border-0 border-gray-300 sm:pr-12 xl:pr-32 lg:text-lg">
+                    Build an atmosphere that creates productivity in your organization and your company culture.
+                </p>
+                <ul class="p-0 m-0 leading-6 border-0 border-gray-300">
+                    <li class="box-border relative py-1 pl-0 text-left text-gray-500 border-solid">
+                        <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-white bg-yellow-300 rounded-full" data-primary="yellow-400"><span class="text-sm font-bold">✓</span></span> Maximize productivity and growth
+                    </li>
+                    <li class="box-border relative py-1 pl-0 text-left text-gray-500 border-solid">
+                        <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-white bg-yellow-300 rounded-full" data-primary="yellow-400"><span class="text-sm font-bold">✓</span></span> Speed past your competition
+                    </li>
+                    <li class="box-border relative py-1 pl-0 text-left text-gray-500 border-solid">
+                        <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-white bg-yellow-300 rounded-full" data-primary="yellow-400"><span class="text-sm font-bold">✓</span></span> Learn the top techniques
+                    </li>
+                </ul>
+            </div>
+            <!-- End  Content -->
+        </div>
+        <div class="box-border flex flex-col items-center content-center px-8 mx-auto mt-2 leading-6 text-black border-0 border-gray-300 border-solid md:mt-20 xl:mt-0 md:flex-row max-w-7xl lg:px-16">
+
+            <!-- Content -->
+            <div class="box-border w-full text-black border-solid md:w-1/2 md:pl-6 xl:pl-32">
+                <h2 class="m-0 text-xl font-semibold leading-tight border-0 border-gray-300 lg:text-3xl md:text-2xl">
+                    Automated Tasks
+                </h2>
+                <p class="pt-4 pb-8 m-0 leading-7 text-gray-700 border-0 border-gray-300 sm:pr-10 lg:text-lg">
+                    Save time and money with our revolutionary services. We are the leaders in the industry.
+                </p>
+                <ul class="p-0 m-0 leading-6 border-0 border-gray-300">
+                    <li class="box-border relative py-1 pl-0 text-left text-gray-500 border-solid">
+                        <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-white bg-yellow-300 rounded-full" data-primary="yellow-400"><span class="text-sm font-bold">✓</span></span> Automated task management workflow
+                    </li>
+                    <li class="box-border relative py-1 pl-0 text-left text-gray-500 border-solid">
+                        <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-white bg-yellow-300 rounded-full" data-primary="yellow-400"><span class="text-sm font-bold">✓</span></span> Detailed analytics for your data
+                    </li>
+                    <li class="box-border relative py-1 pl-0 text-left text-gray-500 border-solid">
+                        <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-white bg-yellow-300 rounded-full" data-primary="yellow-400"><span class="text-sm font-bold">✓</span></span> Some awesome integrations
+                    </li>
+                </ul>
+            </div>
+            <!-- End  Content -->
+
+            <!-- Image -->
+            <div class="box-border relative w-full max-w-md px-4 mt-10 mb-4 text-center bg-no-repeat bg-contain border-solid md:mt-0 md:max-w-none lg:mb-0 md:w-1/2">
+                <img src="https://cdn.devdojo.com/images/december2020/settings.png" class="pl-4 sm:pr-10 xl:pl-10 lg:pr-32" />
+            </div>
+        </div>
+    </section>
+
 
     {{-- FEATURES SECTION --}}
     <section id="fitur" class="py-32 relative overflow-hidden bg-white">
@@ -395,56 +593,50 @@
                 <p class="text-slate-500 font-medium max-w-lg mx-auto">Telah dipercaya oleh berbagai institusi untuk mengelola aset mereka secara profesional.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {{-- Testi 1 --}}
-                <div class="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-xl shadow-indigo-100/20 hover:-translate-y-2 transition-all duration-500">
-                    <div class="flex gap-1 mb-6 text-amber-400">
-                        @for($i=0; $i<5; $i++) <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg> @endfor
-                    </div>
-                    <p class="text-slate-600 italic font-medium leading-relaxed mb-8">
-                        "Semenjak pakai RynDev, audit stok barang di sekolah jadi jauh lebih cepat. Biasanya butuh waktu berhari-hari, sekarang cuma hitungan menit!"
-                    </p>
-                    <div class="flex items-center gap-4 border-t border-gray-50 pt-8">
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white font-black">BP</div>
-                        <div>
-                            <p class="text-sm font-black text-slate-900">Budi Pratama</p>
-                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Kepala Sarpras SMK</p>
+            <div class="items-center justify-center w-full mt-12 mb-4 lg:flex">
+                <div class="flex flex-col items-start justify-start w-full h-auto mb-12 lg:w-1/3 lg:mb-0">
+                    <div class="flex items-center justify-center">
+                        <div class="w-16 h-16 mr-4 overflow-hidden bg-gray-200 rounded-full">
+                            <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1700&q=80"
+                                class="object-cover w-full h-full">
+                        </div>
+                        <div class="flex flex-col items-start justify-center">
+                            <h4 class="font-bold text-gray-800">John Doe</h4>
+                            <p class="text-gray-600">CEO of Something</p>
                         </div>
                     </div>
+                    <blockquote class="mt-8 text-lg text-gray-500">"This is a no-brainer if you want to take your business to the next level. If you are looking for the ultimate toolset, this is it!"</blockquote>
                 </div>
-
-                {{-- Testi 2 --}}
-                <div class="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-xl shadow-indigo-100/20 hover:-translate-y-2 transition-all duration-500 lg:mt-8">
-                    <div class="flex gap-1 mb-6 text-amber-400">
-                        @for($i=0; $i<5; $i++) <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg> @endfor
-                    </div>
-                    <p class="text-slate-600 italic font-medium leading-relaxed mb-8">
-                        "Tampilannya sangat clean dan mudah dipahami bahkan untuk staff kami yang tidak terlalu tech-savvy. RynDev benar-benar user-friendly!"
-                    </p>
-                    <div class="flex items-center gap-4 border-t border-gray-50 pt-8">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-500 flex items-center justify-center text-white font-black">SN</div>
-                        <div>
-                            <p class="text-sm font-black text-slate-900">Siti Nurhaliza</p>
-                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Owner UMKM Retail</p>
+                <div
+                    class="flex flex-col items-start justify-start w-full h-auto px-0 mx-0 mb-12 border-l border-r border-transparent lg:w-1/3 lg:mb-0 lg:px-8 lg:mx-8 lg:border-gray-200">
+                    <div class="flex items-center justify-center">
+                        <div class="w-16 h-16 mr-4 overflow-hidden bg-gray-200 rounded-full">
+                            <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2547&q=80"
+                                class="object-cover w-full h-full">
+                        </div>
+                        <div class="flex flex-col items-start justify-center">
+                            <h4 class="font-bold text-gray-800">Jane Doe</h4>
+                            <p class="text-gray-600">CTO of Business</p>
                         </div>
                     </div>
+                    <blockquote class="mt-8 text-lg text-gray-500">"Thanks for creating this service. My life is so much
+                        easier.
+                        Thanks for making such a great product."</blockquote>
                 </div>
-
-                {{-- Testi 3 --}}
-                <div class="bg-white p-10 rounded-[3rem] border border-gray-100 shadow-xl shadow-indigo-100/20 hover:-translate-y-2 transition-all duration-500">
-                    <div class="flex gap-1 mb-6 text-amber-400">
-                        @for($i=0; $i<5; $i++) <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg> @endfor
-                    </div>
-                    <p class="text-slate-600 italic font-medium leading-relaxed mb-8">
-                        "Fitur barcode scannernya membantu banget pas ada barang masuk partai besar. Sangat stabil dan laporannya juga sangat detail."
-                    </p>
-                    <div class="flex items-center gap-4 border-t border-gray-50 pt-8">
-                        <div class="w-12 h-12 rounded-2xl bg-violet-600 flex items-center justify-center text-white font-black">AD</div>
-                        <div>
-                            <p class="text-sm font-black text-slate-900">Andri Dermawan</p>
-                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Admin Gudang</p>
+                <div class="flex flex-col items-start justify-start w-full h-auto lg:w-1/3">
+                    <div class="flex items-center justify-center">
+                        <div class="w-16 h-16 mr-4 overflow-hidden bg-gray-200 rounded-full">
+                            <img src="https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1256&q=80"
+                                class="object-cover w-full h-full">
+                        </div>
+                        <div class="flex flex-col items-start justify-center">
+                            <h4 class="font-bold text-gray-800">John Smith</h4>
+                            <p class="text-gray-600">Creator of Stuff</p>
                         </div>
                     </div>
+                    <blockquote class="mt-8 text-lg text-gray-500">"Packed with awesome content and exactly what I was
+                        looking
+                        for. I would highly recommend this to anyone."</blockquote>
                 </div>
             </div>
         </div>
@@ -478,7 +670,7 @@
                         <div class="flex items-center gap-5">
                             <span class="flex-shrink-0 w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-sm transition-colors group-hover:bg-indigo-600 group-hover:text-white"
                                 :class="active === 1 ? 'bg-indigo-600 text-white' : ''">01</span>
-                            <span class="font-bold text-lg text-slate-800 tracking-tight">Gimana cara mulai pakai RynDev?</span>
+                            <span class="font-bold text-lg text-slate-800 tracking-tight">Gimana cara mulai pakai RynDev Smart Invenroty?</span>
                         </div>
                         <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center transition-all duration-300"
                             :class="active === 1 ? 'rotate-180 bg-indigo-600 border-indigo-600 text-white' : 'text-gray-400'">
@@ -508,7 +700,7 @@
                     </button>
                     <div x-show="active === 2" x-collapse x-cloak>
                         <div class="px-10 pb-10 ml-15 text-slate-500 leading-relaxed font-medium">
-                            Tentu! RynDev mendukung ekspor data otomatis. Kamu bisa generate laporan stok bulanan, riwayat barang masuk/keluar, ke format <span class="text-emerald-600 font-bold">Excel</span> atau <span class="text-rose-600 font-bold">PDF</span> hanya dengan satu klik.
+                            Tentu! RynDev Smart Inventory mendukung ekspor data otomatis. Kamu bisa generate laporan stok bulanan, riwayat barang masuk/keluar, ke format <span class="text-emerald-600 font-bold">Excel</span> atau <span class="text-rose-600 font-bold">PDF</span> hanya dengan satu klik.
                         </div>
                     </div>
                 </div>
@@ -534,34 +726,13 @@
                     </div>
                 </div>
 
-                {{-- Item 4 --}}
-                <div class="group bg-white rounded-[2.5rem] border border-gray-100 shadow-sm transition-all duration-500"
-                    :class="active === 4 ? 'ring-2 ring-indigo-500/10 shadow-xl shadow-indigo-100/50' : 'hover:border-indigo-200'">
-                    <button @click="active = (active === 4 ? null : 4)" class="w-full px-10 py-7 text-left flex justify-between items-center group">
-                        <div class="flex items-center gap-5">
-                            <span class="flex-shrink-0 w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-black text-sm transition-colors group-hover:bg-indigo-600 group-hover:text-white"
-                                :class="active === 4 ? 'bg-indigo-600 text-white' : ''">04</span>
-                            <span class="font-bold text-lg text-slate-800 tracking-tight">Bisa pakai Barcode Scanner?</span>
-                        </div>
-                        <div class="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center transition-all duration-300"
-                            :class="active === 4 ? 'rotate-180 bg-indigo-600 border-indigo-600 text-white' : 'text-gray-400'">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </div>
-                    </button>
-                    <div x-show="active === 4" x-collapse x-cloak>
-                        <div class="px-10 pb-10 ml-15 text-slate-500 leading-relaxed font-medium">
-                            Tentu saja! RynDev didesain untuk kompatibel dengan alat pemindai barcode eksternal maupun kamera smartphone untuk mempercepat proses input barang masuk dan keluar.
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             {{-- Footer FAQ --}}
             <div class="mt-16 text-center">
                 <p class="text-slate-500 text-sm font-medium">
                     Punya pertanyaan lain? 
-                    <a href="https://wa.me/yournumber" class="text-indigo-600 font-bold hover:underline">Hubungi kami di WhatsApp</a>
+                    <a href="https://wa.me/+6288222150964" class="text-indigo-600 font-bold hover:underline">Hubungi kami di WhatsApp</a>
                 </p>
             </div>
         </div>
@@ -694,9 +865,10 @@
                 </p>
                 <div class="flex items-center gap-2">
                     <span class="text-gray-600 text-[10px] font-black uppercase tracking-widest">Powered by</span>
-                    <span class="text-white text-[10px] font-black uppercase tracking-widest bg-white/5 px-3 py-1 rounded-full border border-white/10">Laravel 11 x Tailwind</span>
+                    <span class="text-white text-[10px] font-black uppercase tracking-widest bg-white/5 px-3 py-1 rounded-full border border-white/10">Laravel 12 x Tailwind</span>
                 </div>
             </div>
+            
         </div>
     </footer>
 

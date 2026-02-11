@@ -6,14 +6,15 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
+use App\Http\Controllers\GoogleAuthController;
+
 
 Route::get('/', function () {
     return view('startup');
 });
 
-Route::get('/genesis', function () {
-    return view('genesis');
-});
+Route::get('auth/google', [GoogleAuthController::class, 'redirect'])->name('google.login');
+Route::get('auth/google/callback', [GoogleAuthController::class, 'callback']);
 
 Auth::routes();
 

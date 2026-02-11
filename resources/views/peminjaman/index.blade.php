@@ -123,12 +123,11 @@
                             <div class="flex justify-center gap-2">
                                 {{-- Tombol Kembalikan (Hanya muncul jika status dipinjam) --}}
                                 @if($p->status == 'dipinjam')
-                                <form action="{{ route('peminjaman.kembalikan', $p->id) }}" method="POST" onsubmit="return confirm('Barang sudah benar-benar kembali, Sayang?')">
+                                <form action="{{ route('peminjaman.kembalikan', $p->id) }}" method="POST" onsubmit="return confirm('Kembalikan?')">
                                     @csrf
                                     <button type="submit" class="p-2 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-600 hover:text-white transition-all shadow-sm" title="Kembalikan Barang">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                                     </button>
-                                    
                                 </form>
                                 @endif
 
