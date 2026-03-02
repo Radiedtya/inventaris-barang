@@ -45,10 +45,8 @@ class HomeController extends Controller
             'totalMasuk'     => BarangMasuk::whereMonth('tanggal_masuk', now()->month)->count(),
             'totalKeluar'    => BarangKeluar::whereMonth('tanggal_keluar', now()->month)->count(),
             
-            // --- DATA TAMBAHAN DARI LIA ---
             'totalDipinjam'  => Peminjaman::where('status', 'dipinjam')->sum('jumlah'),
             'lastPeminjaman' => Peminjaman::with('barang')->latest()->first(),
-            // ------------------------------
 
             'lastMasuk'      => BarangMasuk::with('barang')->latest()->first(),
             'lastKeluar'     => BarangKeluar::with('barang')->latest()->first(),
@@ -57,6 +55,6 @@ class HomeController extends Controller
             'dataKeluar'     => $dataKeluar,
         ];
 
-        return view('home', $data); // Pastikan nama view-nya sesuai (home atau dashboard)
+        return view('home', $data);
     }
 }

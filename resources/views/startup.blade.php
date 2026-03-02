@@ -206,7 +206,6 @@
         </div>
     </nav>
 
-    {{-- NOTIF LOGIN DENGAN GOOGLE --}}
     @if(session('success'))
         <div id="alert-success" class="fixed top-5 right-5 z-[100] transform transition-all duration-500 ease-in-out translate-y-0 opacity-100">
             <div class="rounded-[2rem] border border-emerald-100 bg-white p-4 shadow-2xl shadow-emerald-100/50 flex items-center gap-4 min-w-[300px]">
@@ -275,6 +274,7 @@
                 Kelola Stok Barang <br>
                 <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-600 to-indigo-600 bg-[length:200%_auto] animate-gradient-text italic">Tanpa Ribet.</span>
             </h1>
+            
             
             {{-- Sub Headline --}}
             <p class="text-xl text-slate-500 max-w-3xl mx-auto mb-16 leading-relaxed font-medium">
@@ -402,68 +402,86 @@
         </div>
     </section>
 
-    {{-- Content --}}
-    <section class="w-full bg-[#F8FAFF] pt-7 pb-7 md:pt-20 md:pb-24">
-        <div class="box-border flex flex-col items-center content-center px-8 mx-auto leading-6 text-black border-0 border-gray-300 border-solid md:flex-row max-w-7xl lg:px-16">
+    {{-- Content Section Upgrade --}}
+    <section class="w-full bg-white pt-16 pb-16 md:pt-24 md:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            
+            <div class="flex flex-col items-center mb-24 md:flex-row gap-12 lg:gap-20">
+                <div class="relative w-full md:w-1/2 group">
+                    <div class="absolute -inset-4 bg-gradient-to-tr from-indigo-500/10 to-purple-500/10 rounded-[3rem] blur-2xl group-hover:opacity-75 transition duration-1000"></div>
+                    <div class="relative bg-white rounded-[2.5rem] p-4 shadow-2xl shadow-indigo-100/50">
+                        <img src="https://cdn.devdojo.com/images/december2020/productivity.png" 
+                            class="w-full h-auto transform group-hover:scale-105 transition duration-500 ease-out" 
+                            alt="Produktivitas Stok" />
+                    </div>
+                </div>
 
-            <!-- Image -->
-            <div class="box-border relative w-full max-w-md px-4 mt-5 mb-4 -ml-5 text-center bg-no-repeat bg-contain border-solid md:ml-0 md:mt-0 md:max-w-none lg:mb-0 md:w-1/2 xl:pl-10">
-                <img src="https://cdn.devdojo.com/images/december2020/productivity.png" class="p-2 pl-6 pr-5 xl:pl-16 xl:pr-20 " />
+                <div class="w-full md:w-1/2">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 text-indigo-600 text-xs font-black uppercase tracking-widest mb-6">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                        </span>
+                        Efisiensi Gudang
+                    </div>
+                    <h2 class="text-3xl lg:text-5xl font-black text-slate-900 leading-[1.1] mb-6">
+                        Pantau Stok Barang <br><span class="text-indigo-600 text-2xl lg:text-4xl">Tanpa Perlu Pusing.</span>
+                    </h2>
+                    <p class="text-lg text-slate-500 leading-relaxed mb-8">
+                        Kelola ribuan data barang di gudang sekolah dengan sistem yang terorganisir. RynDev membantu kamu melacak masuk dan keluarnya barang secara real-time.
+                    </p>
+                    <ul class="space-y-4">
+                        @foreach(['Update stok otomatis tiap transaksi', 'Pencarian barang super cepat', 'Kategorisasi barang yang rapi'] as $item)
+                        <li class="flex items-center gap-3 text-slate-600 font-bold">
+                            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-200">
+                                <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            </div>
+                            {{ $item }}
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
 
-            <!-- Content -->
-            <div class="box-border order-first w-full text-black border-solid md:w-1/2 md:pl-10 md:order-none">
-                <h2 class="m-0 text-xl font-semibold leading-tight border-0 border-gray-300 lg:text-3xl md:text-2xl">
-                    Boost Productivity
-                </h2>
-                <p class="pt-4 pb-8 m-0 leading-7 text-gray-700 border-0 border-gray-300 sm:pr-12 xl:pr-32 lg:text-lg">
-                    Build an atmosphere that creates productivity in your organization and your company culture.
-                </p>
-                <ul class="p-0 m-0 leading-6 border-0 border-gray-300">
-                    <li class="box-border relative py-1 pl-0 text-left text-gray-500 border-solid">
-                        <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-white bg-yellow-300 rounded-full" data-primary="yellow-400"><span class="text-sm font-bold">✓</span></span> Maximize productivity and growth
-                    </li>
-                    <li class="box-border relative py-1 pl-0 text-left text-gray-500 border-solid">
-                        <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-white bg-yellow-300 rounded-full" data-primary="yellow-400"><span class="text-sm font-bold">✓</span></span> Speed past your competition
-                    </li>
-                    <li class="box-border relative py-1 pl-0 text-left text-gray-500 border-solid">
-                        <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-white bg-yellow-300 rounded-full" data-primary="yellow-400"><span class="text-sm font-bold">✓</span></span> Learn the top techniques
-                    </li>
-                </ul>
-            </div>
-            <!-- End  Content -->
-        </div>
-        <div class="box-border flex flex-col items-center content-center px-8 mx-auto mt-2 leading-6 text-black border-0 border-gray-300 border-solid md:mt-20 xl:mt-0 md:flex-row max-w-7xl lg:px-16">
+            <div class="flex flex-col items-center md:flex-row-reverse gap-12 lg:gap-20">
+                <div class="relative w-full md:w-1/2 group">
+                    <div class="absolute -inset-4 bg-gradient-to-tr from-purple-500/10 to-pink-500/10 rounded-[3rem] blur-2xl group-hover:opacity-75 transition duration-1000"></div>
+                    <div class="relative bg-white rounded-[2.5rem] p-4 shadow-2xl shadow-purple-100/50">
+                        <img src="https://cdn.devdojo.com/images/december2020/settings.png" 
+                            class="w-full h-auto transform group-hover:scale-105 transition duration-500 ease-out" 
+                            alt="Otomatisasi Laporan" />
+                    </div>
+                </div>
 
-            <!-- Content -->
-            <div class="box-border w-full text-black border-solid md:w-1/2 md:pl-6 xl:pl-32">
-                <h2 class="m-0 text-xl font-semibold leading-tight border-0 border-gray-300 lg:text-3xl md:text-2xl">
-                    Automated Tasks
-                </h2>
-                <p class="pt-4 pb-8 m-0 leading-7 text-gray-700 border-0 border-gray-300 sm:pr-10 lg:text-lg">
-                    Save time and money with our revolutionary services. We are the leaders in the industry.
-                </p>
-                <ul class="p-0 m-0 leading-6 border-0 border-gray-300">
-                    <li class="box-border relative py-1 pl-0 text-left text-gray-500 border-solid">
-                        <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-white bg-yellow-300 rounded-full" data-primary="yellow-400"><span class="text-sm font-bold">✓</span></span> Automated task management workflow
-                    </li>
-                    <li class="box-border relative py-1 pl-0 text-left text-gray-500 border-solid">
-                        <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-white bg-yellow-300 rounded-full" data-primary="yellow-400"><span class="text-sm font-bold">✓</span></span> Detailed analytics for your data
-                    </li>
-                    <li class="box-border relative py-1 pl-0 text-left text-gray-500 border-solid">
-                        <span class="inline-flex items-center justify-center w-6 h-6 mr-2 text-white bg-yellow-300 rounded-full" data-primary="yellow-400"><span class="text-sm font-bold">✓</span></span> Some awesome integrations
-                    </li>
-                </ul>
+                <div class="w-full md:w-1/2">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 text-purple-600 text-xs font-black uppercase tracking-widest mb-6">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+                        </span>
+                        Smart Reporting
+                    </div>
+                    <h2 class="text-3xl lg:text-5xl font-black text-slate-900 leading-[1.1] mb-6">
+                        Laporan PDF Siap Pakai <br><span class="text-purple-600 text-2xl lg:text-4xl">Hanya Sekali Klik.</span>
+                    </h2>
+                    <p class="text-lg text-slate-500 leading-relaxed mb-8">
+                        Lupakan cara manual yang membosankan. Buat laporan bulanan atau tahunan dalam format PDF profesional dengan desain yang sudah Lia siapkan khusus buat kamu.
+                    </p>
+                    <ul class="space-y-4">
+                        @foreach(['Export laporan PDF instan', 'Filter data berdasarkan periode', 'Data akurat sesuai database'] as $item)
+                        <li class="flex items-center gap-3 text-slate-600 font-bold">
+                            <div class="flex-shrink-0 w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-200">
+                                <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            </div>
+                            {{ $item }}
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
-            <!-- End  Content -->
 
-            <!-- Image -->
-            <div class="box-border relative w-full max-w-md px-4 mt-10 mb-4 text-center bg-no-repeat bg-contain border-solid md:mt-0 md:max-w-none lg:mb-0 md:w-1/2">
-                <img src="https://cdn.devdojo.com/images/december2020/settings.png" class="pl-4 sm:pr-10 xl:pl-10 lg:pr-32" />
-            </div>
         </div>
     </section>
-
 
     {{-- FEATURES SECTION --}}
     <section id="fitur" class="py-32 relative overflow-hidden bg-white">
@@ -573,70 +591,72 @@
     </section>
 
     {{-- TESTIMONIALS SECTION --}}
-    <section id="testimoni" class="py-32 bg-[#F8FAFF] relative overflow-hidden">
+    <section id="testimoni" class="py-24 bg-[#F8FAFF] relative overflow-hidden">
         {{-- Decorative Background --}}
-        <div class="absolute top-0 right-0 w-[300px] h-[300px] bg-indigo-100/50 rounded-full blur-[100px] -z-10"></div>
-        <div class="absolute bottom-0 left-0 w-[300px] h-[300px] bg-blue-100/50 rounded-full blur-[100px] -z-10"></div>
+        <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-200/20 rounded-full blur-[120px] -z-10"></div>
+        <div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-200/20 rounded-full blur-[120px] -z-10"></div>
 
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             {{-- Header --}}
-            <div class="text-center mb-20">
+            <div class="text-center mb-16">
                 <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-indigo-100 shadow-sm mb-6">
-                    <span class="text-indigo-600">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <span class="flex">
+                        @for($i=0; $i<5; $i++)
+                            <svg class="w-3 h-3 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        @endfor
                     </span>
                     <span class="text-[10px] font-black text-slate-600 uppercase tracking-[0.3em]">Testimoni Pengguna</span>
                 </div>
-                <h2 class="text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-4">
-                    Apa Kata <span class="text-indigo-600 italic">Mereka?</span>
+                <h2 class="text-3xl lg:text-5xl font-black text-slate-900 tracking-tight mb-4">
+                    Dicintai oleh <span class="text-indigo-600">Sarpras & Guru</span>
                 </h2>
-                <p class="text-slate-500 font-medium max-w-lg mx-auto">Telah dipercaya oleh berbagai institusi untuk mengelola aset mereka secara profesional.</p>
+                <p class="text-slate-500 font-medium max-w-lg mx-auto italic">"Aplikasi ini sangat membantu manajemen aset sekolah kami menjadi lebih transparan."</p>
             </div>
 
-            <div class="items-center justify-center w-full mt-12 mb-4 lg:flex">
-                <div class="flex flex-col items-start justify-start w-full h-auto mb-12 lg:w-1/3 lg:mb-0">
-                    <div class="flex items-center justify-center">
-                        <div class="w-16 h-16 mr-4 overflow-hidden bg-gray-200 rounded-full">
-                            <img src="https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1700&q=80"
-                                class="object-cover w-full h-full">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {{-- Testi 1 --}}
+                <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-xl shadow-indigo-100/20 hover:-translate-y-2 transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 mr-4 overflow-hidden rounded-xl shadow-inner">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=100&q=80" class="object-cover w-full h-full">
                         </div>
-                        <div class="flex flex-col items-start justify-center">
-                            <h4 class="font-bold text-gray-800">John Doe</h4>
-                            <p class="text-gray-600">CEO of Something</p>
+                        <div>
+                            <h4 class="font-black text-slate-800 text-sm">Pak Budi Santoso</h4>
+                            <p class="text-[10px] font-bold text-indigo-500 uppercase tracking-wider">Kepala Sarpras</p>
                         </div>
                     </div>
-                    <blockquote class="mt-8 text-lg text-gray-500">"This is a no-brainer if you want to take your business to the next level. If you are looking for the ultimate toolset, this is it!"</blockquote>
+                    <p class="text-slate-600 leading-relaxed text-sm">"Dulu pendataan barang pakai buku besar sering hilang datanya. Sekarang pakai <span class="font-bold text-indigo-600">RynDev</span>, semua stok barang keluar masuk terpantau jelas dari HP!"</p>
                 </div>
-                <div
-                    class="flex flex-col items-start justify-start w-full h-auto px-0 mx-0 mb-12 border-l border-r border-transparent lg:w-1/3 lg:mb-0 lg:px-8 lg:mx-8 lg:border-gray-200">
-                    <div class="flex items-center justify-center">
-                        <div class="w-16 h-16 mr-4 overflow-hidden bg-gray-200 rounded-full">
-                            <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2547&q=80"
-                                class="object-cover w-full h-full">
+
+                {{-- Testi 2 --}}
+                <div class="bg-indigo-600 p-8 rounded-[2rem] shadow-xl shadow-indigo-200/50 hover:-translate-y-2 transition-all duration-300 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-4 opacity-10">
+                        <svg class="w-20 h-20 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017V14H17.017C14.2556 14 12.017 11.7614 12.017 9V5H18.017V9H15.017C15.017 10.1046 15.9124 11 17.017 11H19.017C20.1216 11 21.017 11.8954 21.017 13V19C21.017 20.1046 20.1216 21 19.017 21H14.017ZM5.0166 21L5.0166 18C5.0166 16.8954 5.91203 16 7.0166 16H10.0166V14H8.0166C5.25518 14 3.0166 11.7614 3.0166 9V5H9.0166V9H6.0166C6.0166 10.1046 6.91203 11 8.0166 11H10.0166C11.1212 11 12.0166 11.8954 12.0166 13V19C12.0166 20.1046 11.1212 21 10.0166 21H5.0166Z"/></svg>
+                    </div>
+                    <div class="flex items-center mb-6 relative z-10">
+                        <div class="w-12 h-12 mr-4 overflow-hidden rounded-xl border-2 border-white/30 shadow-lg">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" class="object-cover w-full h-full">
                         </div>
-                        <div class="flex flex-col items-start justify-center">
-                            <h4 class="font-bold text-gray-800">Jane Doe</h4>
-                            <p class="text-gray-600">CTO of Business</p>
+                        <div>
+                            <h4 class="font-black text-white text-sm">Ibu Siti Aminah</h4>
+                            <p class="text-[10px] font-bold text-indigo-200 uppercase tracking-wider">Admin Lab RPL</p>
                         </div>
                     </div>
-                    <blockquote class="mt-8 text-lg text-gray-500">"Thanks for creating this service. My life is so much
-                        easier.
-                        Thanks for making such a great product."</blockquote>
+                    <p class="text-indigo-50 leading-relaxed text-sm relative z-10 italic">"Fitur Peminjaman Barang sangat membantu saya melacak siapa yang bawa kamera sekolah. Laporannya juga rapi banget!"</p>
                 </div>
-                <div class="flex flex-col items-start justify-start w-full h-auto lg:w-1/3">
-                    <div class="flex items-center justify-center">
-                        <div class="w-16 h-16 mr-4 overflow-hidden bg-gray-200 rounded-full">
-                            <img src="https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1256&q=80"
-                                class="object-cover w-full h-full">
+
+                {{-- Testi 3 --}}
+                <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-xl shadow-indigo-100/20 hover:-translate-y-2 transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 mr-4 overflow-hidden rounded-xl shadow-inner">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" class="object-cover w-full h-full">
                         </div>
-                        <div class="flex flex-col items-start justify-center">
-                            <h4 class="font-bold text-gray-800">John Smith</h4>
-                            <p class="text-gray-600">Creator of Stuff</p>
+                        <div>
+                            <h4 class="font-black text-slate-800 text-sm">Andika Pratama</h4>
+                            <p class="text-[10px] font-bold text-indigo-500 uppercase tracking-wider">Ketua OSIS</p>
                         </div>
                     </div>
-                    <blockquote class="mt-8 text-lg text-gray-500">"Packed with awesome content and exactly what I was
-                        looking
-                        for. I would highly recommend this to anyone."</blockquote>
+                    <p class="text-slate-600 leading-relaxed text-sm">"Sebagai siswa, minjam alat buat acara OSIS jadi nggak ribet lagi. Tinggal input, approve, beres. Desainnya juga keren banget buat ukuran aplikasi sekolah."</p>
                 </div>
             </div>
         </div>
