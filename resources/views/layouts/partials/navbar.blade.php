@@ -56,7 +56,7 @@
                                  class="w-9 h-9 rounded-xl shadow-md border-2 border-white group-hover:border-indigo-100 transition-all" alt="Avatar">
                             <div class="text-left hidden lg:block">
                                 <p class="text-sm font-black text-gray-900 leading-none">{{ Auth::user()->name }}</p>
-                                <p class="text-[10px] text-indigo-500 font-bold uppercase tracking-tighter mt-1">Admin</p>
+                                <p class="text-[10px] text-indigo-500 font-bold uppercase tracking-tighter mt-1">{{ Auth::user()->role }}</p>
                             </div>
                             <svg class="w-4 h-4 text-gray-400 group-hover:text-indigo-600 transition-transform duration-300" :class="dropdownOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                         </button>

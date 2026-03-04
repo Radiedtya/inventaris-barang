@@ -2,36 +2,38 @@
 
 @section('content')
 <div class="max-w-6xl mx-auto px-6 pb-12">
-    {{-- Header Section --}}
-    <div class="mb-8 flex justify-between items-center">
-        <div>
-            <h1 class="text-3xl font-black text-slate-900 tracking-tight">Peminjaman Barang</h1>
-            <p class="text-sm text-slate-500 mt-1 uppercase tracking-widest font-bold italic">Log Transaksi Peminjaman</p>
-        </div>
-        <a href="{{ route('peminjaman.create') }}" class="px-6 py-3 bg-indigo-600 text-white rounded-2xl font-bold text-sm hover:bg-indigo-700 transition shadow-lg shadow-indigo-100 flex items-center gap-2">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Pinjam Barang
-        </a>
-    </div>
+        <div class="flex flex-wrap items-center gap-3 py-3">
+            <a href="{{ route('peminjaman.create') }}"  
+            class="px-5 py-2.5 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition shadow-lg shadow-gray-100 font-bold flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 4v16m8-8H4" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                Pinjam Barang
+            </a>
 
-    {{-- Notifikasi --}}
+            <a href="{{ route('peminjaman.export', ['merek' => request('merek')]) }}" 
+            class="px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition shadow-lg shadow-emerald-100 font-bold flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Export Excel
+            </a>
+        </div>
+
     @if(session('success'))
         <div id="alert-success" class="fixed top-5 right-5 z-[100] transform transition-all duration-500 ease-in-out translate-y-0 opacity-100">
             <div class="rounded-[2rem] border border-emerald-100 bg-white p-4 shadow-2xl shadow-emerald-100/50 flex items-center gap-4 min-w-[300px]">
-                {{-- Icon --}}
                 <div class="flex-shrink-0 w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center">
                     <svg class="h-6 w-6 text-emerald-600" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
                     </svg>
                 </div>
                 
-                {{-- Text --}}
                 <div>
                     <h3 class="text-sm font-black text-slate-800 uppercase tracking-tight">Success!</h3>
                     <p class="text-xs text-slate-500 font-medium">{{ session('success') }}</p>
                 </div>
 
-                {{-- Close Button (Opsional) --}}
                 <button onclick="dismissAlert()" class="ml-auto text-slate-300 hover:text-slate-500 transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </button>

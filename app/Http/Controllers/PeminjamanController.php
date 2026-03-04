@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Peminjaman;
+use App\Exports\PeminjamanExport;
 use App\Models\Barang;
+use App\Models\Peminjaman;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PeminjamanController extends Controller
 {
@@ -99,5 +101,10 @@ class PeminjamanController extends Controller
 
         $pinjam->delete();
         return back()->with('success', 'Data peminjaman berhasil dihapus.');
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new PeminjamanExport, 'Laporan_Peminjaman_RynDev_' . date('d-M-Y') . '.xlsx');
     }
 }

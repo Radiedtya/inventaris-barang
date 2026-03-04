@@ -15,6 +15,7 @@
             @elseif(Request::is('barang-keluar*')) Log Barang Keluar
             @elseif(Request::is('laporan*')) Pusat Laporan
             @elseif(Request::is('peminjaman*')) Peminjaman Barang
+            @elseif(Request::is('petugas*')) Data Petugas
             @else Halaman Utama
             @endif
         </h2>

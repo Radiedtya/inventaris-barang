@@ -34,7 +34,7 @@
         </a>
 
         {{-- Data Barang --}}
-        <a href="/barang" class="{{ $navClass }} {{ Request::is('barang') ? $activeClass : $inactiveClass }}">
+        <a href="/barang" class="{{ $navClass }} {{ Request::is('barang*') ? $activeClass : $inactiveClass }}">
             <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
@@ -69,6 +69,19 @@
             <span x-show="sidebarOpen" class="ml-3 text-sm font-bold tracking-tight">Barang Keluar</span>
         </a>
 
+        {{-- KHUSUS ADMIN: Data Petugas --}}
+        @if(Auth::user()->role == 'admin')
+        <div x-show="sidebarOpen" class="px-4 pt-6 pb-2">
+            <p class="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">Pengaturan</p>
+        </div>
+        <a href="/petugas" class="{{ $navClass }} {{ Request::is('petugas*') ? $activeClass : $inactiveClass }}">
+            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <span x-show="sidebarOpen" class="ml-3 text-sm font-bold tracking-tight">Data Petugas</span>
+        </a>
+        @endif
+
         <hr class="my-6 border-slate-50 mx-2">
 
         {{-- Laporan --}}
@@ -97,7 +110,7 @@
                     {{ Auth::user()->name ?? 'Guest' }}
                 </p>
                 <p class="text-[9px] text-slate-400 font-bold uppercase tracking-wider truncate">
-                    Administrator
+                    {{ Auth::user()->role ?? 'Guest' }}
                 </p>
             </div>
         </div>
