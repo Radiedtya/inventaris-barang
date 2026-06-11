@@ -19,7 +19,7 @@ class RoleMiddleware
             return $next($request);
         }
         
-        // Kalau bukan admin, lempar ke dashboard dengan pesan error
-        return redirect('/dashboard')->with('error', 'Kamu tidak punya akses ke halaman ini!');
+        // Kalau bukan admin, kembalikan response 403 Forbidden
+        return abort(403, 'Kamu tidak punya akses ke halaman ini!');
     }
 }

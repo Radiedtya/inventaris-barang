@@ -1,180 +1,215 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-6xl mx-auto px-6 pb-12">
-        <div class="flex flex-wrap items-center gap-3 py-3">
-            <a href="{{ route('peminjaman.create') }}"  
-            class="px-5 py-2.5 bg-gray-600 text-white rounded-xl hover:bg-gray-700 transition shadow-lg shadow-gray-100 font-bold flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 4v16m8-8H4" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                Pinjam Barang
-            </a>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 pb-12 select-none space-y-6">
 
+    {{-- Minimalist Floating Toast Notification --}}
+    @if(session('success'))
+        <div x-data="{ show: true }"
+             x-init="setTimeout(() => show = false, 4000)"
+             x-show="show"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-2 sm:translate-y-0 sm:translate-x-2"
+             x-transition:enter-end="opacity-100 translate-y-0 sm:translate-x-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="fixed bottom-5 right-5 z-[100] max-w-sm w-full bg-white border border-slate-200/80 rounded-xl shadow-md p-4 flex items-start gap-3">
+            
+            <div class="p-1 bg-emerald-50 text-emerald-600 rounded-md shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+
+            <div class="flex-1 min-w-0">
+                <p class="text-xs font-semibold text-slate-900">Transaksi Diperbarui</p>
+                <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">{{ session('success') }}</p>
+            </div>
+
+            <button @click="show = false" class="text-slate-400 hover:text-slate-600 transition-colors shrink-0">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+    @endif
+
+    {{-- Header Title & Action Controls --}}
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+        <div>
+            <h1 class="text-xl font-bold text-slate-900 tracking-tight">Log Transaksi Peminjaman</h1>
+            <p class="text-xs font-medium text-slate-400 mt-1">Pantau sirkulasi peminjaman, status pengembalian, dan penanggung jawab komoditas.</p>
+        </div>
+
+        <div class="flex items-center gap-2">
+            {{-- Tombol Export Excel --}}
             <a href="{{ route('peminjaman.export', ['merek' => request('merek')]) }}" 
-            class="px-5 py-2.5 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition shadow-lg shadow-emerald-100 font-bold flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+               class="h-9 px-3.5 bg-white border border-slate-200 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors text-xs font-semibold flex items-center gap-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.01)]">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 Export Excel
             </a>
+
+            {{-- Tombol Pinjam Barang --}}
+            <a href="{{ route('peminjaman.create') }}"  
+               class="h-9 px-3.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors text-xs font-semibold flex items-center gap-1.5 shadow-sm">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                    <path d="M12 4v16m8-8H4" stroke-linecap="round"/>
+                </svg>
+                Buat Pinjaman
+            </a>
         </div>
+    </div>
 
-    @if(session('success'))
-        <div id="alert-success" class="fixed top-5 right-5 z-[100] transform transition-all duration-500 ease-in-out translate-y-0 opacity-100">
-            <div class="rounded-[2rem] border border-emerald-100 bg-white p-4 shadow-2xl shadow-emerald-100/50 flex items-center gap-4 min-w-[300px]">
-                <div class="flex-shrink-0 w-10 h-10 bg-emerald-50 rounded-full flex items-center justify-center">
-                    <svg class="h-6 w-6 text-emerald-600" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                    </svg>
+    {{-- Filter Merek (Matte Design Section) --}}
+    <div class="bg-slate-50/60 border border-slate-200/50 p-4 rounded-xl">
+        <form action="{{ route('peminjaman.index') }}" method="GET" class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3">
+            
+            <div class="flex-1">
+                <label for="merek" class="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5 ml-0.5">Filter Merek Barang</label>
+                <div class="relative">
+                    <select name="merek" id="merek" 
+                            class="w-full h-9 pl-3 pr-10 rounded-lg border border-slate-200 bg-white focus:border-slate-400 focus:ring-0 outline-none transition-all text-xs font-medium appearance-none text-slate-700">
+                        <option value="">Semua Merek Dagang</option>
+                        @foreach($daftarMerek as $m)
+                            <option value="{{ $m }}" {{ request('merek') == $m ? 'selected' : '' }}>{{ $m }}</option>
+                        @endforeach
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                    </div>
                 </div>
-                
-                <div>
-                    <h3 class="text-sm font-black text-slate-800 uppercase tracking-tight">Success!</h3>
-                    <p class="text-xs text-slate-500 font-medium">{{ session('success') }}</p>
-                </div>
-
-                <button onclick="dismissAlert()" class="ml-auto text-slate-300 hover:text-slate-500 transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            
+            <div class="flex items-center gap-2 shrink-0">
+                <button type="submit" class="h-9 px-5 bg-white border border-slate-200 text-slate-700 rounded-lg text-xs font-semibold hover:bg-slate-50 transition-colors shadow-[0_1px_2px_rgba(0,0,0,0.01)] flex items-center justify-center">
+                    Terapkan Filter
                 </button>
+                
+                @if(request('merek'))
+                    <a href="{{ route('peminjaman.index') }}" class="h-9 px-4 bg-slate-200/70 text-slate-600 rounded-lg text-xs font-medium hover:bg-slate-200 transition-colors flex items-center justify-center">
+                        Reset
+                    </a>
+                @endif
             </div>
-        </div>
-
-        <script>
-            // Fungsi untuk menghilangkan alert
-            function dismissAlert() {
-                const alert = document.getElementById('alert-success');
-                if(alert) {
-                    alert.style.opacity = '0';
-                    alert.style.transform = 'translateY(-20px)';
-                    setTimeout(() => {
-                        alert.remove();
-                    }, 500); // Tunggu animasi transisi selesai (500ms)
-                }
-            }
-
-            // Set waktu otomatis hilang (3 detik)
-            setTimeout(() => {
-                dismissAlert();
-            }, 3000);
-        </script>
-    @endif
-
-    {{-- Filter Merek --}}
-    <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-sm mb-6">
-        <form action="{{ route('peminjaman.index') }}" method="GET" class="flex flex-wrap items-end gap-4">
-            <div class="flex-1 min-w-[200px]">
-                <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 ml-1">Filter Merek Barang</label>
-                <select name="merek" class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none transition text-sm font-medium">
-                    <option value="">Semua Merek</option>
-                    @foreach($daftarMerek as $m)
-                        <option value="{{ $m }}" {{ request('merek') == $m ? 'selected' : '' }}>{{ $m }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <button type="submit" class="px-8 py-3 bg-slate-900 text-white rounded-2xl font-bold text-sm hover:bg-slate-800 transition">Filter</button>
-            @if(request('merek'))
-                <a href="{{ route('peminjaman.index') }}" class="px-8 py-3 bg-slate-100 text-slate-500 rounded-2xl font-bold text-sm hover:bg-slate-200 transition">Reset</a>
-            @endif
         </form>
     </div>
 
-    {{-- Table Card --}}
-    <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm overflow-hidden">
+    {{-- Table Data Area --}}
+    <div class="bg-white border border-slate-100 rounded-xl shadow-[0_1px_2px_rgba(0,0,0,0.01)] overflow-hidden">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-slate-50/50">
-                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Peminjam</th>
-                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Barang</th>
-                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Jumlah</th>
-                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
-                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Tanggal Pinjam</th>
-                        <th class="px-6 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Aksi</th>
+                <thead class="bg-slate-50/70 border-b border-slate-100">
+                    <tr>
+                        <th class="px-5 py-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Peminjam</th>
+                        <th class="px-5 py-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider">Detail Barang</th>
+                        <th class="px-5 py-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider w-24">Jumlah</th>
+                        <th class="px-5 py-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider w-32">Status</th>
+                        <th class="px-5 py-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider w-40">Linimasa Tanggal</th>
+                        <th class="px-5 py-3 text-[10px] font-semibold text-slate-400 uppercase tracking-wider text-center w-24">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-50">
+                
+                <tbody class="divide-y divide-slate-100">
                     @forelse($peminjamans as $p)
-                    <tr class="hover:bg-slate-50/50 transition-colors group">
-                        <td class="px-6 py-5">
-                            <p class="font-bold text-slate-800">{{ $p->nama_peminjam }}</p>
-                            <p class="text-[10px] text-slate-400 italic">{{ $p->keterangan ?? 'Tanpa keterangan' }}</p>
+                    <tr class="hover:bg-slate-50/30 transition-colors">
+                        {{-- Kolom Peminjam --}}
+                        <td class="px-5 py-3.5">
+                            <p class="text-xs font-semibold text-slate-800">{{ $p->nama_peminjam }}</p>
+                            <p class="text-[10px] text-slate-400 mt-0.5 italic max-w-[180px] truncate" title="{{ $p->keterangan }}">{{ $p->keterangan ?? 'Tanpa catatan' }}</p>
                         </td>
-                        <td class="px-6 py-5">
-                            <img src="{{ $p->barang->foto_url }}" alt="" class="w-14 h-14 object-cover rounded-xl mb-2 border border-slate-200 shadow-sm">
-                            <p class="font-bold text-slate-700">{{ $p->barang->nama_barang }}</p>
-                            <p class="text-[10px] font-black text-indigo-500 uppercase">{{ $p->barang->merek }}</p>
+
+                        {{-- Kolom Detail Barang --}}
+                        <td class="px-5 py-3.5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-9 h-9 rounded-lg border border-slate-100 overflow-hidden bg-slate-50 flex items-center justify-center shrink-0">
+                                    @if ($p->barang->foto)
+                                        <img src="{{ $p->barang->foto_url }}" class="w-full h-full object-cover">
+                                    @else
+                                        <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    @endif
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-slate-700 leading-tight">{{ $p->barang->nama_barang }}</p>
+                                    <p class="text-[9px] font-medium text-slate-400 uppercase mt-0.5">{{ $p->barang->merek }}</p>
+                                </div>
+                            </div>
                         </td>
-                        <td class="px-6 py-5">
-                            <span class="px-3 py-1 bg-slate-100 rounded-full text-xs font-black text-slate-600">{{ $p->jumlah }} Unit</span>
+
+                        {{-- Kolom Jumlah --}}
+                        <td class="px-5 py-3.5 text-xs font-medium text-slate-600">
+                            {{ $p->jumlah }} Unit
                         </td>
-                        <td class="px-6 py-5">
+
+                        {{-- Kolom Status --}}
+                        <td class="px-5 py-3.5 text-xs">
                             @if($p->status == 'dipinjam')
-                                <span class="px-3 py-1 bg-amber-50 text-amber-600 rounded-full text-[10px] font-black uppercase tracking-tighter">Sedang Dipinjam</span>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-50 text-amber-600 border border-amber-100">
+                                    Sedang Dipinjam
+                                </span>
                             @else
-                                <span class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full text-[10px] font-black uppercase tracking-tighter">Sudah Kembali</span>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-600 border border-emerald-100">
+                                    Sudah Kembali
+                                </span>
                             @endif
                         </td>
-                        <td class="px-6 py-5">
-                            <p class="text-xs font-bold text-slate-600">{{ \Carbon\Carbon::parse($p->tanggal_pinjam)->format('d M Y') }}</p>
+
+                        {{-- Kolom Tanggal --}}
+                        <td class="px-5 py-3.5">
+                            <p class="text-xs font-semibold text-slate-600">{{ \Carbon\Carbon::parse($p->tanggal_pinjam)->format('d M Y') }}</p>
                             @if($p->tanggal_kembali)
-                                <p class="text-[9px] text-emerald-500 font-medium italic">Kembali: {{ \Carbon\Carbon::parse($p->tanggal_kembali)->format('d M Y') }}</p>
+                                <p class="text-[9px] text-emerald-500 font-medium mt-0.5">Selesai: {{ \Carbon\Carbon::parse($p->tanggal_kembali)->format('d M Y') }}</p>
                             @endif
                         </td>
-                        <td class="px-6 py-5">
-                            <div class="flex justify-center gap-2">
-                                {{-- Tombol Kembalikan (Hanya muncul jika status dipinjam) --}}
+
+                        {{-- Kolom Aksi --}}
+                        <td class="px-5 py-3.5">
+                            <div class="flex justify-center items-center gap-1.5">
+                                {{-- Tombol Proses Pengembalian --}}
                                 @if($p->status == 'dipinjam')
-                                <form action="{{ route('peminjaman.kembalikan', $p->id) }}" method="POST" onsubmit="return confirm('Kembalikan?')">
+                                <form action="{{ route('peminjaman.kembalikan', $p->id) }}" method="POST" onsubmit="return confirm('Konfirmasi pengembalian komoditas barang ini?')">
                                     @csrf
-                                    <button type="submit" class="p-2 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-600 hover:text-white transition-all shadow-sm" title="Kembalikan Barang">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    <button type="submit" class="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-md transition-all" title="Kembalikan Barang">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
                                     </button>
                                 </form>
                                 @endif
 
-                                {{-- Tombol Hapus --}}
-                                <form action="{{ route('peminjaman.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Yakin mau hapus data ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="p-2 bg-rose-50 text-rose-600 rounded-xl hover:bg-rose-600 hover:text-white transition-all shadow-sm" title="Hapus Data">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                {{-- Tombol Hapus Log --}}
+                                <form action="{{ route('peminjaman.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Hapus riwayat data transaksi peminjaman ini secara permanen?')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50/50 rounded-md transition-all" title="Hapus Transaksi">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" stroke-linecap="round"/>
+                                        </svg>
                                     </button>
-                                    {{-- <button title="Hapus Data" type="submit" class="group relative flex w-9 h-9 flex-col items-center justify-center overflow-hidden rounded-xl border-2 border-red-800 bg-red-400 hover:bg-red-600">
-                                        <svg viewBox="0 0 1.625 1.625" class="absolute -top-7 fill-white delay-100 group-hover:top-6 group-hover:animate-[spin_1.4s] group-hover:duration-1000" height="15" width="15">
-                                            <path d="M.471 1.024v-.52a.1.1 0 0 0-.098.098v.618c0 .054.044.098.098.098h.487a.1.1 0 0 0 .098-.099h-.39c-.107 0-.195 0-.195-.195"/>
-                                            <path d="M1.219.601h-.163A.1.1 0 0 1 .959.504V.341A.033.033 0 0 0 .926.309h-.26a.1.1 0 0 0-.098.098v.618c0 .054.044.098.098.098h.487a.1.1 0 0 0 .098-.099v-.39a.033.033 0 0 0-.032-.033"/>
-                                            <path d="m1.245.465-.15-.15a.02.02 0 0 0-.016-.006.023.023 0 0 0-.023.022v.108c0 .036.029.065.065.065h.107a.023.023 0 0 0 .023-.023.02.02 0 0 0-.007-.016"/>
-                                        </svg>
-                                        <svg width="16" fill="none" viewBox="0 0 39 7" class="origin-right duration-500 group-hover:rotate-90">
-                                            <line stroke-width="4" stroke="white" y2="5" x2="39" y1="5"></line>
-                                            <line stroke-width="3" stroke="white" y2="1.5" x2="26.0357" y1="1.5" x1="12"></line>
-                                        </svg>
-                                        <svg width="16" fill="none" viewBox="0 0 33 39" class="">
-                                            <mask fill="white" id="path-1-inside-1_8_19">
-                                                <path d="M0 0H33V35C33 37.2091 31.2091 39 29 39H4C1.79086 39 0 37.2091 0 35V0Z"/>
-                                            </mask>
-                                            <path mask="url(#path-1-inside-1_8_19)" fill="white" d="M0 0H33H0ZM37 35C37 39.4183 33.4183 43 29 43H4C-0.418278 43 -4 39.4183 -4 35H4H29H37ZM4 43C-0.418278 43 -4 39.4183 -4 35V0H4V35V43ZM37 0V35C37 39.4183 33.4183 43 29 43V35V0H37Z"/>
-                                            <path stroke-width="4" stroke="white" d="M12 6L12 29"/>
-                                            <path stroke-width="4" stroke="white" d="M21 6V29"/>
-                                        </svg>
-                                    </button> --}}
                                 </form>
                             </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-10 text-center text-slate-400 italic text-sm">Belum ada data peminjaman nih...</td>
+                        <td colspan="6" class="px-5 py-16 text-center">
+                            <div class="flex flex-col items-center justify-center gap-2 text-slate-300">
+                                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                    <path d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" stroke-linecap="round"/>
+                                </svg>
+                                <p class="text-xs font-medium text-slate-400">Belum ada riwayat pencatatan log transaksi peminjaman.</p>
+                            </div>
+                        </td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
         
-        {{-- Pagination --}}
+        {{-- Pagination Block --}}
         @if($peminjamans->hasPages())
-        <div class="px-6 py-4 bg-slate-50/50 border-t border-slate-100">
+        <div class="px-5 py-3 bg-slate-50/50 border-t border-slate-100 text-xs">
             {{ $peminjamans->appends(request()->query())->links() }}
         </div>
         @endif
