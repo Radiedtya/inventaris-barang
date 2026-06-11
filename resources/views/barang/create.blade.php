@@ -1,21 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-2xl mx-auto">
-    {{-- Header --}}
+<div class="max-w-2xl mx-auto pb-12 select-none">
     <div class="mb-6">
         <h1 class="text-2xl font-bold text-gray-900">Tambah Barang Baru</h1>
         <p class="text-sm text-gray-500">Masukkan detail barang untuk menambah stok gudang kita.</p>
     </div>
 
-    {{-- Form Card --}}
     <div class="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden">
         <form action="{{ route('barang.store') }}" method="POST" class="p-8 space-y-6" enctype="multipart/form-data">
             @csrf
             
-            {{-- Input Nama Barang --}}
             <div>
-                <label for="nama_barang" class="block text-sm font-semibold text-gray-700 mb-2">Nama Barang</label>
+                <label for="nama_barang" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Nama Barang <span class="text-red-500 ml-0.5">*</span>
+                </label>
                 <input type="text" 
                        name="nama_barang" 
                        id="nama_barang" 
@@ -29,9 +28,10 @@
                 @enderror
             </div>
 
-            {{-- Input Merek --}}
             <div>
-                <label for="merek" class="block text-sm font-semibold text-gray-700 mb-2">Merek</label>
+                <label for="merek" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Merek <span class="text-red-500 ml-0.5">*</span>
+                </label>
                 <input type="text" 
                        name="merek" 
                        id="merek" 
@@ -45,9 +45,10 @@
                 @enderror
             </div>
 
-            {{-- Input Stok Awal --}}
             <div>
-                <label for="stok" class="block text-sm font-semibold text-gray-700 mb-2">Stok Awal</label>
+                <label for="stok" class="block text-sm font-semibold text-gray-700 mb-2">
+                    Stok Awal <span class="text-red-500 ml-0.5">*</span>
+                </label>
                 <div class="relative">
                     <input type="number" 
                            name="stok" 
@@ -101,7 +102,6 @@
                 </div>
             </div>
 
-            {{-- Action Buttons --}}
             <div class="flex items-center justify-end gap-3 pt-4 border-t border-gray-50">
                 <a href="{{ route('barang.index') }}" 
                    class="px-6 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-800 transition">
@@ -115,7 +115,6 @@
         </form>
     </div>
 </div>
-
 
 <script>
     const fotoInput = document.getElementById('foto-input');
